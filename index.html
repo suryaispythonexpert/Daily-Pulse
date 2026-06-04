@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AESTHETIC TELEMETRY & SANCTUARY</title>
+    <style>
+        /* SAKURA J-AESTHETIC DEFAULTS (CHERRY BLOSSOMS) */
+        :root {
+            --bg-cozy: #fdf5f6;          
+            --card-base: rgba(255, 255, 255, 0.94);
+            --text-dark: #2d2526;        
+            --text-soft: #8c7b7d;        
+            --accent-blush: #f6bdc6;     
+            --accent-border: #2d2526;
+            --radius-premium: 16px;
+            --transition-smooth: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            --transition-bounce: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+            /* Ocular-Safe Soft Tone Matrices */
+            --tint-peaceful: #e4edd3;   
+            --tint-stressed: #f7dadf;   
+            --tint-pain: #fcf0da;       
+            --tint-creative: #dbe9f7;   
+            --tint-low: #ebebeb;        
+            
+            /* Cycle Only Tints */
+            --tint-cycle-spot: #fceeed;
+            --tint-cycle-light: #fcdad7;
+            --tint-cycle-med: #f7a199;
+            --tint-cycle-heavy: #d65a6f;
+        }
+
+        /* 🇰🇷 K-AESTHETIC */
+        [data-theme="korean"] {
+            --bg-cozy: #f3f0f7;          
+            --card-base: rgba(255, 255, 255, 0.96);
+            --text-dark: #1b1721;
+            --text-soft: #756d82;
+            --accent-blush: #d2c4e3;     
+            --accent-border: #1b1721;
+        }
+
+        /* 🇩🇪 GERMAN LIGHT MODE */
+        [data-theme="german"] {
+            --bg-cozy: #eef2f5;          
+            --card-base: rgba(255, 255, 255, 0.97);
+            --text-dark: #2c3539;        
+            --text-soft: #5c6b73;        
+            --accent-blush: #7a9284;     
+            --accent-border: #2c3539;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+        
+        body { 
+            background-color: var(--bg-cozy); 
+            color: var(--text-dark); 
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            -webkit-font-smoothing: antialiased;
+            transition: var(--transition-smooth);
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* PREMIUM PRELOADER OVERLAY */
+        #systemPreloaderCanvas {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background-color: var(--bg-cozy);
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .preloader-heartbeat-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        .preloader-ring {
+            width: 80px; height: 80px;
+            border: 4px solid var(--text-dark);
+            border-top: 4px solid var(--accent-blush);
+            border-radius: 50%;
+            animation: preloaderSpin 1s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
+            box-shadow: 4px 4px 0px var(--text-dark);
+        }
+        .preloader-text {
+            font-family: 'Impact', sans-serif;
+            font-size: 1.8rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-dark);
+            animation: preloaderPulse 1.5s ease-in-out infinite;
+        }
+        @keyframes preloaderSpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        @keyframes preloaderPulse {
+            0%, 100% { opacity: 0.6; transform: scale(0.98); }
+            50% { opacity: 1; transform: scale(1.02); }
+        }
+
+        #ambientParticleCanvas {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .app-shell { 
+            width: 100%; 
+            max-width: 1150px; 
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+            z-index: 2;
+            position: relative;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .app-shell.loaded-prime {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        header { 
+            text-align: left; 
+            margin-bottom: 10px; 
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            flex-wrap: wrap;
+            gap: 20px;
+            border-bottom: 4px solid var(--text-dark);
+            padding-bottom: 20px;
+        }
+        header h1 { 
+            font-family: 'Impact', 'Arial Black', sans-serif;
+            font-size: 5rem; 
+            font-weight: 900; 
+            text-transform: uppercase;
+            letter-spacing: -0.03em;
+            line-height: 0.85;
+            color: var(--text-dark);
+        }
+        header p { 
+            font-size: 0.85rem; 
+            color: var(--text-soft); 
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            font-weight: 700;
+        }
+
+        .sub-lang-detail {
+            display: block;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 3px;
+            opacity: 0.8;
+            font-weight: 600;
+        }
+
+        .utility-header-deck {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .mood-switcher-container { display: flex; gap: 10px; }
+        .mood-dot-btn {
+            background: var(--card-base); border: 3px solid var(--text-dark); padding: 10px 18px;
+            font-size: 0.75rem; font-weight: 800; text-transform: uppercase; cursor: pointer;
+            color: var(--text-dark); transition: var(--transition-smooth); box-shadow: 4px 4px 0px var(--text-dark); text-align: center;
+        }
+        .mood-dot-btn:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0px var(--text-dark); }
+        .mood-dot-btn.active-theme { background: var(--text-dark); color: var(--bg-cozy); box-shadow: none; transform: none; }
+
+        .insight-telemetry-banner {
+            background: var(--card-base);
+            border: 3px solid var(--text-dark);
+            border-radius: var(--radius-premium);
+            padding: 20px;
+            box-shadow: 4px 4px 0px var(--text-dark);
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+        .insight-icon { font-size: 2rem; }
+        .insight-stream-body h4 { text-transform: uppercase; font-family: 'Impact', sans-serif; font-size: 1.2rem; letter-spacing: 0.02em; }
+        .insight-stream-body p { font-size: 0.88rem; color: var(--text-dark); margin-top: 4px; line-height: 1.5; font-weight: 500; }
+
+        .dashboard-grid { display: grid; grid-template-columns: 1fr; gap: 24px; }
+        @media (min-width: 900px) { .dashboard-grid { grid-template-columns: 500px 1fr; } }
+
+        .dash-panel {
+            background: var(--card-base); border: 3px solid var(--text-dark); border-radius: var(--radius-premium);
+            padding: 30px; box-shadow: 6px 6px 0px var(--text-dark); transition: var(--transition-smooth); backdrop-filter: blur(4px);
+        }
+        .panel-heading {
+            font-size: 1.1rem; text-transform: uppercase; color: var(--text-dark); margin-bottom: 24px;
+            font-weight: 900; border-bottom: 2px solid var(--text-dark); padding-bottom: 10px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+
+        .cycle-flower-tracker-btn {
+            background: var(--accent-blush);
+            border: 2px solid var(--text-dark);
+            border-radius: 50%;
+            width: 42px; height: 42px;
+            font-size: 1.4rem;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+            box-shadow: 2px 2px 0px var(--text-dark);
+            transition: var(--transition-bounce);
+        }
+        .cycle-flower-tracker-btn:hover {
+            transform: scale(1.15) rotate(45deg);
+        }
+
+        .calendar-grid {
+            display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-bottom: 20px; max-height: 420px; overflow-y: auto; padding-right: 5px;
+        }
+        .date-node {
+            background: var(--card-base); border: 2px solid var(--text-dark); border-radius: 12px; padding: 14px 0; text-align: center; cursor: pointer; color: var(--text-dark); 
+            transition: var(--transition-bounce);
+            position: relative;
+        }
+        .date-node:hover { transform: translateY(-4px) scale(1.05); box-shadow: 4px 4px 0px var(--text-dark); }
+        .date-node .node-day { display: block; font-size: 0.6rem; text-transform: uppercase; color: var(--text-soft); font-weight: 800; letter-spacing: 0.05em; }
+        .date-node .node-num { font-size: 1.4rem; font-family: 'Impact', sans-serif; line-height: 1; margin-top: 2px; }
+
+        .color-legend { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; }
+        .legend-item { display: flex; align-items: center; gap: 8px; padding: 6px; border: 1px solid var(--text-dark); border-radius: 6px; }
+        .legend-dot { width: 14px; height: 14px; border-radius: 4px; border: 1px solid var(--text-dark); }
+
+        .ledger-item {
+            border: 2px solid var(--text-dark); background: var(--card-base); margin-bottom: 16px; padding: 20px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center;
+            transition: var(--transition-smooth);
+        }
+        .ledger-item:hover { transform: translateX(5px); }
+        .ledger-meta { display: flex; flex-direction: column; gap: 8px; width: 85%; }
+        .ledger-date { font-weight: 900; font-size: 1.3rem; text-transform: uppercase; color: var(--text-dark); font-family: 'Impact', sans-serif; }
+        .badge-row { display: flex; gap: 6px; flex-wrap: wrap; }
+        .mini-badge { font-size: 0.72rem; background: var(--card-base); padding: 5px 10px; border-radius: 6px; color: var(--text-dark); border: 2px solid var(--text-dark); font-weight: 800; text-transform: uppercase; }
+        .ledger-notes { font-size: 0.85rem; color: var(--text-soft); margin-top: 4px; border-left: 2px solid var(--text-dark); padding-left: 8px; }
+        .vibe-icon { font-size: 1.4rem; width: 44px; height: 44px; background: var(--accent-blush); border: 2px solid var(--text-dark); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+
+        .water-engine-container { display: flex; align-items: center; gap: 12px; margin-top: 5px; }
+        .water-control-btn {
+            background: var(--card-base); border: 2px solid var(--text-dark); width: 36px; height: 36px; font-size: 1.1rem; font-weight: 900; cursor: pointer; display: flex; align-items: center; justify-content: center;
+            transition: var(--transition-smooth);
+        }
+        .water-control-btn:hover { background: var(--text-dark); color: var(--bg-cozy); }
+        .water-display-counter { font-family: 'Impact', sans-serif; font-size: 1.4rem; min-width: 110px; text-align: center; }
+
+        /* MODAL EXTREME SMOOTHNESS PACK */
+        .modal-mask {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.2); backdrop-filter: blur(0px); 
+            display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; 
+            transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), backdrop-filter 0.6s cubic-bezier(0.16, 1, 0.3, 1); z-index: 1000; padding: 20px;
+        }
+        .modal-mask.active { opacity: 1; pointer-events: auto; backdrop-filter: blur(16px); }
+        .modal-body {
+            background: var(--card-base); width: 100%; max-width: 550px; padding: 35px; 
+            transform: scale(0.85) translateY(40px); opacity: 0;
+            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1); 
+            max-height: 90vh; overflow-y: auto; border: 4px solid var(--text-dark); box-shadow: 8px 8px 0px var(--text-dark);
+        }
+        .modal-mask.active .modal-body { transform: scale(1) translateY(0); opacity: 1; }
+        .modal-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 3px solid var(--text-dark); padding-bottom: 15px; }
+        .modal-top h3 { font-size: 1.6rem; font-weight: 900; color: var(--text-dark); text-transform: uppercase; font-family: 'Impact', sans-serif; }
+        .dismiss-btn { background: none; border: none; font-size: 2rem; cursor: pointer; color: var(--text-dark); font-weight: 900; transition: var(--transition-bounce); }
+        .dismiss-btn:hover { transform: scale(1.2) rotate(90deg); }
+
+        .question-block { margin-bottom: 20px; }
+        .question-block label { display: block; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; color: var(--text-dark); margin-bottom: 8px; }
+        
+        .slider-wrapper { display: flex; align-items: center; gap: 15px; }
+        .slider-wrapper input[type="range"] { flex: 1; -webkit-appearance: none; appearance: none; background: var(--text-dark); height: 6px; outline: none; }
+        .slider-wrapper input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 18px; height: 18px; background: var(--accent-blush); border: 2px solid var(--text-dark); cursor: pointer; }
+        .slider-indicator { font-size: 1.1rem; font-weight: 900; min-width: 30px; text-align: right; font-family: 'Impact', sans-serif; }
+
+        .chip-matrix { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+        .chip-option { background: var(--card-base); border: 2px solid var(--text-dark); padding: 12px; font-size: 0.8rem; color: var(--text-dark); cursor: pointer; text-align: center; font-weight: 700; text-transform: uppercase; transition: var(--transition-smooth); }
+        .chip-option:hover { background: var(--bg-cozy); transform: scale(1.02); }
+        .chip-option.selected { background: var(--text-dark); color: var(--card-base); }
+
+        .checkbox-matrix { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 5px; }
+        .checkbox-wrapper { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; cursor: pointer; }
+        .checkbox-wrapper input[type="checkbox"] { width: 18px; height: 18px; accent-color: #d65a6f; cursor: pointer; }
+
+        select, textarea { width: 100%; background: var(--card-base); border: 2px solid var(--text-dark); padding: 12px; color: var(--text-dark); font-size: 0.85rem; font-weight: 700; text-transform: uppercase; outline: none; transition: var(--transition-smooth); }
+        select:focus, textarea:focus { box-shadow: 4px 4px 0px var(--text-dark); }
+        
+        .commit-btn { background: var(--text-dark); color: var(--card-base); border: none; width: 100%; padding: 16px; font-weight: 900; font-size: 1rem; text-transform: uppercase; cursor: pointer; margin-top: 10px; border: 2px solid var(--text-dark); box-shadow: 4px 4px 0px var(--accent-blush); transition: var(--transition-bounce); }
+        .commit-btn:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0px var(--accent-blush); }
+
+        /* Isolated Cycle Mode Aesthetics */
+        .cycle-modal-grid {
+            display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin: 15px 0;
+        }
+        .cycle-node {
+            background: var(--card-base); border: 2px solid var(--text-dark); border-radius: 8px; padding: 12px 0; text-align: center; font-weight: bold; cursor: pointer; transition: var(--transition-bounce);
+        }
+        .cycle-node:hover { transform: scale(1.12); box-shadow: 2px 2px 0px var(--text-dark); }
+        .cycle-node .cycle-node-day { display: block; font-size: 0.55rem; opacity: 0.6; text-transform: uppercase; letter-spacing: 0.05em; }
+        .cycle-node .cycle-node-num { font-size: 1.1rem; font-family: 'Impact', sans-serif; }
+        .cycle-node.selected-day-node { border-color: #d65a6f; background-color: rgba(214, 90, 111, 0.1) !important; box-shadow: 0 0 8px rgba(214, 90, 111, 0.4); transform: scale(1.05); }
+
+        .cycle-legend-grid { display: flex; flex-wrap: wrap; gap: 8px; font-size: 0.65rem; font-weight: bold; text-transform: uppercase; margin-bottom: 15px; background: rgba(0,0,0,0.03); padding: 8px; border-radius: 6px; }
+        .cycle-legend-dot { width: 12px; height: 12px; border-radius: 3px; border: 1px solid var(--text-dark); }
+
+        .system-clear-link { background: none; border: none; color: var(--text-soft); font-size: 0.75rem; text-decoration: underline; cursor: pointer; display: block; margin: 20px auto 0 auto; font-weight: 700; text-transform: uppercase; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg-cozy); }
+        ::-webkit-scrollbar-thumb { background: var(--text-dark); border-radius: 3px; }
+        
+        /* REPORT MODAL STYLES */
+        .report-section-divider { margin-top: 15px; padding-top: 15px; border-top: 2px solid var(--text-dark); }
+        .report-day-box { background: rgba(0, 0, 0, 0.02); border: 2px solid var(--text-dark); border-radius: 8px; padding: 12px; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+
+<!-- COMPONENT: PRELOADER COMPOSER -->
+<div id="systemPreloaderCanvas">
+    <div class="preloader-heartbeat-box">
+        <div class="preloader-ring"></div>
+        <div class="preloader-text">INITIALIZING MATRIX...</div>
+    </div>
+</div>
+
+<canvas id="ambientParticleCanvas"></canvas>
+
+<div class="app-shell" id="primaryAppShellContainer">
+    <header>
+        <div>
+            <h1 id="brandHeader">DAILY PULSE</h1>
+            <p id="headerSubtitle">// 桜マトリクス // CHERRY BLOSSOM OCULAR MATRIX</p>
+        </div>
+        
+        <div class="utility-header-deck">
+            <div class="mood-switcher-container">
+                <button class="mood-dot-btn active-theme" onclick="shiftGlobalAesthetic('sakura', this)">
+                    Sakura Spec <span class="sub-lang-detail">チェリーブロッサム</span>
+                </button>
+                <button class="mood-dot-btn" onclick="shiftGlobalAesthetic('korean', this)">
+                    Hongdae K-Pop <span class="sub-lang-detail">아미 // Life Goes On</span>
+                </button>
+                <button class="mood-dot-btn" onclick="shiftGlobalAesthetic('german', this)">
+                    Bavarian Castle <span class="sub-lang-detail">Schloss // Light Mode</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="insight-telemetry-banner" id="insightBannerModule">
+        <span class="insight-icon">🧠</span>
+        <div class="insight-stream-body">
+            <h4 id="insightPanelTitle">Clinical Correlation Dashboard</h4>
+            <p id="insightSystemNarrativeText">Analyzing physical headache telemetry data lines... Track parameters inside the matrix below.</p>
+        </div>
+    </div>
+
+    <div class="dashboard-grid">
+        <div class="dash-panel">
+            <div class="panel-heading">
+                <span id="horizonHeading">Select Calendar Day (1st - 31st)</span>
+                <button type="button" class="cycle-flower-tracker-btn" title="Open Dedicated Advanced Cycle Tracker" onclick="revealIsolatedCycleCalendarModal()">💮</button>
+            </div>
+            <div class="calendar-grid" id="numericDayMatrixContainer"></div>
+
+            <div class="panel-heading" id="colorKeyHeading" style="margin-top: 30px; margin-bottom: 15px; font-size: 0.9rem;">Matrix Color Key</div>
+            <div class="color-legend">
+                <div class="legend-item"><span class="legend-dot" style="background: var(--tint-peaceful)"></span>Balanced Horizon</div>
+                <div class="legend-item"><span class="legend-dot" style="background: var(--tint-stressed)"></span>Stressed Mood</div>
+                <div class="legend-item"><span class="legend-dot" style="background: var(--tint-pain)"></span>Pain Spike / TMJ</div>
+                <div class="legend-item"><span class="legend-dot" style="background: var(--tint-creative)"></span>High Output</div>
+                <div class="legend-item"><span class="legend-dot" style="background: var(--tint-low)"></span>Fatigued / Low</div>
+            </div>
+            
+            <button class="commit-btn" style="background:var(--accent-blush); border: 2px solid var(--text-dark); margin-top:25px;" onclick="revealMonthlySummaryReportModal()">📊 Generate Monthly Report</button>
+        </div>
+
+        <div class="dash-panel">
+            <div class="panel-heading" id="pipelineHeading">Recent Reflections Pipeline</div>
+            <div id="ledgerPipelineFeed"></div>
+            <button class="system-clear-link" id="purgeDataLink" onclick="purgeSystemLogs()">Wipe Local Device Memory Records</button>
+        </div>
+    </div>
+</div>
+
+<!-- MAIN SURVEY TELEMETRY FORM DIALOG MODAL -->
+<div class="modal-mask" id="surveyEngineModal">
+    <div class="modal-body">
+        <div class="modal-top">
+            <h3 id="targetModalFormattedTitle">Log Day Variables</h3>
+            <button class="dismiss-btn" onclick="hideSurveyEngineModal()">&times;</button>
+        </div>
+        
+        <form id="expandedTelemetryForm">
+            <input type="hidden" id="operationalDateStringKey">
+
+            <div class="question-block">
+                <label id="vibeCheckLabel">Primary General Vibe Profile</label>
+                <div class="chip-matrix" id="feedbackVibeMatrix">
+                    <div class="chip-option" data-value="peaceful" id="vibeOpt1">🌿 Calm / Grounded</div>
+                    <div class="chip-option" data-value="stressed" id="vibeOpt2">⚡ Stressed / Anxious</div>
+                    <div class="chip-option" data-value="creative" id="vibeOpt3">✨ Inspired / Productive</div>
+                    <div class="chip-option" data-value="fatigued" id="vibeOpt4">☁️ Low Energy / Burned Out</div>
+                    <div class="chip-option" data-value="pain" id="vibeOpt5">🤕 Sore / Physical Pain</div>
+                    <div class="chip-option" data-value="joyful" id="vibeOpt6">☀️ Joyful / Happy</div>
+                    <div class="chip-option" data-value="emotional" id="vibeOpt7">💧 Sensitive / Emotional</div>
+                </div>
+                <input type="hidden" id="selectedFeedbackVibe" value="peaceful">
+            </div>
+
+            <div class="question-block" style="background: rgba(135,180,220,0.08); padding: 15px; border-radius: 8px; border: 1px dashed var(--text-dark);">
+                <label id="waterLabel" style="margin-bottom: 12px; display: block; color: var(--text-dark);">💧 Hydration Metrics / Water Intake Counter</label>
+                <div class="water-engine-container">
+                    <button type="button" class="water-control-btn" onclick="adjustWaterValue(-1)">−</button>
+                    <span class="water-display-counter" id="waterMetricValueDisplay">0 Glasses</span>
+                    <button type="button" class="water-control-btn" onclick="adjustWaterValue(1)">+</button>
+                </div>
+                <input type="hidden" id="hiddenWaterInputVolume" value="0">
+            </div>
+
+            <div class="question-block">
+                <label id="weatherBaroLabel">🌤️ Barometric Environment Conditions</label>
+                <select id="barometricWeatherInput">
+                    <option value="stable">Stable / Clear Skies</option>
+                    <option value="pressure_drop">Pressure Drop / Rainy Overcast</option>
+                    <option value="humid">High Humidity / Heavy Air Atmosphere</option>
+                    <option value="storm">Storm Warning / Major Shift Threat</option>
+                    <option value="sunny">Sunny / Bright</option>
+                    <option value="cloudy">Cloudy / Overcast</option>
+                    <option value="windy">Windy / Breezy</option>
+                </select>
+            </div>
+
+            <div class="question-block">
+                <label id="sleepLabel">Sleep Hours (0-24)</label>
+                <div class="slider-wrapper">
+                    <input type="range" id="sleepScore" min="0" max="24" value="8" oninput="updateSliderOutputText(this)">
+                    <span class="slider-indicator">8</span>
+                </div>
+            </div>
+
+            <div class="question-block">
+                <label id="anxLabel">Anxiety Assessment Metric</label>
+                <div class="slider-wrapper">
+                    <input type="range" id="anxietyScore" min="1" max="10" value="1" oninput="updateSliderOutputText(this)">
+                    <span class="slider-indicator">1</span>
+                </div>
+            </div>
+
+            <div class="question-block">
+                <label id="headacheLabel">Headache / Migraine Spectrum Range</label>
+                <div class="slider-wrapper">
+                    <input type="range" id="headacheScore" min="1" max="10" value="1" oninput="updateSliderOutputText(this)">
+                    <span class="slider-indicator">1</span>
+                </div>
+            </div>
+
+            <div class="question-block">
+                <label id="jawLabel">Jaw Pain / TMJ Clenching Severity</label>
+                <div class="slider-wrapper">
+                    <input type="range" id="jawPainScore" min="1" max="10" value="1" oninput="updateSliderOutputText(this)">
+                    <span class="slider-indicator">1</span>
+                </div>
+            </div>
+
+            <div class="question-block">
+                <label id="cryingLabel">Emotional Release / Crying Severity</label>
+                <div class="slider-wrapper">
+                    <input type="range" id="cryingScore" min="1" max="10" value="1" oninput="updateSliderOutputText(this)">
+                    <span class="slider-indicator">1</span>
+                </div>
+            </div>
+
+            <div class="question-block">
+                <label id="notesLabel">Qualitative Notes Context</label>
+                <textarea id="qualitativeDiary" rows="3" placeholder="Log contextual physical symptom details here..."></textarea>
+            </div>
+
+            <button type="submit" class="commit-btn" id="saveLogBtn">Save Reflection Log</button>
+        </form>
+    </div>
+</div>
+
+<!-- 💮 COMPLETELY ISOLATED, DEDICATED HIGH-TRACKING CYCLE SANCTUARY POPUP -->
+<div class="modal-mask" id="isolatedCycleModalWorkspace">
+    <div class="modal-body" style="border-color: #d65a6f; box-shadow: 8px 8px 0px #d65a6f; max-width: 650px;">
+        <div class="modal-top" style="border-bottom-color: #d65a6f; margin-bottom: 15px;">
+            <h3 style="color: #d65a6f; display: flex; align-items: center; gap: 8px;">💮 Menstrual Cycle Matrix</h3>
+            <button class="dismiss-btn" style="color: #d65a6f;" onclick="hideIsolatedCycleCalendarModal()">&times;</button>
+        </div>
+        
+        <div class="cycle-legend-grid">
+            <div style="display:flex; align-items:center; gap:4px;"><span class="cycle-legend-dot" style="background:var(--tint-cycle-spot)"></span> Spotting</div>
+            <div style="display:flex; align-items:center; gap:4px;"><span class="cycle-legend-dot" style="background:var(--tint-cycle-light)"></span> Light</div>
+            <div style="display:flex; align-items:center; gap:4px;"><span class="cycle-legend-dot" style="background:var(--tint-cycle-med)"></span> Medium</div>
+            <div style="display:flex; align-items:center; gap:4px;"><span class="cycle-legend-dot" style="background:var(--tint-cycle-heavy)"></span> Heavy</div>
+        </div>
+
+        <div class="cycle-modal-grid" id="internalCycleCalendarNodeMap"></div>
+
+        <div style="border-top: 3px solid #d65a6f; margin-top: 15px; padding-top: 15px;">
+            <h4 id="cycleTargetStatusFeedbackLabel" style="font-weight: 800; font-size: 0.95rem; color: #d65a6f; text-transform: uppercase; margin-bottom: 15px; text-align: center;">
+                Select a day token above to update cycle matrix parameters
+            </h4>
+            
+            <div id="cycleActionControlInterfaceDeck" style="display: none; flex-direction: column; gap: 16px; background: rgba(214, 90, 111, 0.04); padding: 18px; border: 2px solid #d65a6f; border-radius: 8px;">
+                
+                <div class="question-block" style="margin-bottom:0;">
+                    <label style="color:#d65a6f;">🩸 Flow Volume Metric</label>
+                    <select id="cycleFlowInputDropdown" style="border-color: #d65a6f;">
+                        <option value="none">🗑️ No Flow / Clean Baseline</option>
+                        <option value="spotting">💧 Spotting</option>
+                        <option value="light">💮 Light Flow</option>
+                        <option value="medium">💮 Medium Flow</option>
+                        <option value="heavy">🔥 Heavy Flow Window</option>
+                    </select>
+                </div>
+
+                <div class="question-block" style="margin-bottom:0;">
+                    <label style="color:#d65a6f;">⚡ Cramps & Uterine Pain Intensity</label>
+                    <div class="slider-wrapper">
+                        <input type="range" id="cycleCrampsSlider" min="1" max="10" value="1" oninput="updateSliderOutputText(this)" style="background:#d65a6f;">
+                        <span class="slider-indicator" style="color:#d65a6f;">1</span>
+                    </div>
+                </div>
+
+                <div class="question-block" style="margin-bottom:0;">
+                    <label style="color:#d65a6f;">🌸 Associated Physical & Emotional Signals</label>
+                    <div class="checkbox-matrix">
+                        <label class="checkbox-wrapper"><input type="checkbox" id="cycleSymptomBloat"> 🎈 Bloating</label>
+                        <label class="checkbox-wrapper"><input type="checkbox" id="cycleSymptomFatigue"> ☁️ Heavy Fatigue</label>
+                        <label class="checkbox-wrapper"><input type="checkbox" id="cycleSymptomMood"> ⚡ PMDD / Mood Swing</label>
+                        <label class="checkbox-wrapper"><input type="checkbox" id="cycleSymptomBreasts"> 🍒 Breast Tenderness</label>
+                    </div>
+                </div>
+
+                <div class="question-block" style="margin-bottom:0;">
+                    <label style="color:#d65a6f;">✏️ Isolated Cycle Diary Notes</label>
+                    <textarea id="cycleDiaryNotes" rows="2" style="border-color: #d65a6f;" placeholder="Log separate cycle-specific variables here..."></textarea>
+                </div>
+
+                <div style="display:flex; gap:10px;">
+                    <button type="button" class="commit-btn" style="background: #d65a6f; box-shadow: 4px 4px 0px var(--text-dark); margin-top: 5px; flex:1;" onclick="commitIsolatedCycleStateChange()">Commit Cycle Log</button>
+                    <button type="button" class="commit-btn" style="background: #756d82; box-shadow: 4px 4px 0px var(--text-dark); margin-top: 5px; flex:1;" onclick="clearIsolatedCycleStateRow()">Clear Entry Logs</button>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 20px; max-height: 150px; overflow-y: auto; border-top: 1px dashed #d65a6f; padding-top: 10px;">
+            <p style="font-size:0.7rem; font-weight:800; text-transform:uppercase; color:var(--text-soft); margin-bottom:8px;">Isolated Cycle Stream Logs History:</p>
+            <div id="internalCycleHistoryLogFeed" style="display:flex; flex-direction:column; gap:6px;"></div>
+        </div>
+    </div>
+</div>
+
+<!-- DETAILED MONTHLY REPORT SHEET DISPLAY MODAL OVERLAY -->
+<div class="modal-mask" id="monthlySummaryReportOverlayWorkspace">
+    <div class="modal-body" style="max-width: 700px; border-color: var(--text-dark);">
+        <div class="modal-top">
+            <h3>📊 Detailed Monthly Compilation Report</h3>
+            <button class="dismiss-btn" onclick="hideMonthlySummaryReportModal()">&times;</button>
+        </div>
+        <div id="monthlyReportCompiledDetailsPayloadInject" style="display:flex; flex-direction:column; gap:20px;">
+            <!-- Render Dynamic Code Injections Inside Here -->
+        </div>
+        <button class="commit-btn" style="background:#636e72; margin-top:25px;" onclick="hideMonthlySummaryReportModal()">Close Report Sheet</button>
+    </div>
+</div>
+
+<script>
+    // PRELOADER DISPATCH CORE ENGINE
+    window.addEventListener('DOMContentLoaded', () => {
+        setTimeout(() => {
+            const preloader = document.getElementById('systemPreloaderCanvas');
+            const primaryAppShell = document.getElementById('primaryAppShellContainer');
+            
+            preloader.style.opacity = '0';
+            preloader.style.transform = 'scale(1.05)';
+            primaryAppShell.classList.add('loaded-prime');
+            
+            setTimeout(() => {
+                preloader.style.display = 'none';
+            }, 800);
+        }, 1400);
+    });
+
+    // LAYOUT REFS MATRIX
+    const numericDayMatrixContainer = document.getElementById('numericDayMatrixContainer');
+    const surveyEngineModal = document.getElementById('surveyEngineModal');
+    const targetModalFormattedTitle = document.getElementById('targetModalFormattedTitle');
+    const operationalDateStringKey = document.getElementById('operationalDateStringKey');
+    const ledgerPipelineFeed = document.getElementById('ledgerPipelineFeed');
+    const expandedTelemetryForm = document.getElementById('expandedTelemetryForm');
+    const feedbackVibeMatrix = document.getElementById('feedbackVibeMatrix');
+    const selectedFeedbackVibe = document.getElementById('selectedFeedbackVibe');
+    const hiddenWaterInputVolume = document.getElementById('hiddenWaterInputVolume');
+    const waterMetricValueDisplay = document.getElementById('waterMetricValueDisplay');
+
+    // ISOLATED MENSTRUAL MATRIX NODES
+    const isolatedCycleModalWorkspace = document.getElementById('isolatedCycleModalWorkspace');
+    const internalCycleCalendarNodeMap = document.getElementById('internalCycleCalendarNodeMap');
+    const cycleTargetStatusFeedbackLabel = document.getElementById('cycleTargetStatusFeedbackLabel');
+    const cycleActionControlInterfaceDeck = document.getElementById('cycleActionControlInterfaceDeck');
+    const cycleFlowInputDropdown = document.getElementById('cycleFlowInputDropdown');
+    const cycleCrampsSlider = document.getElementById('cycleCrampsSlider');
+    const cycleSymptomBloat = document.getElementById('cycleSymptomBloat');
+    const cycleSymptomFatigue = document.getElementById('cycleSymptomFatigue');
+    const cycleSymptomMood = document.getElementById('cycleSymptomMood');
+    const cycleSymptomBreasts = document.getElementById('cycleSymptomBreasts');
+    const cycleDiaryNotes = document.getElementById('cycleDiaryNotes');
+    const internalCycleHistoryLogFeed = document.getElementById('internalCycleHistoryLogFeed');
+    
+    // REPORT MODAL ELEMENT OVERLAYS
+    const monthlySummaryReportOverlayWorkspace = document.getElementById('monthlySummaryReportOverlayWorkspace');
+    const monthlyReportCompiledDetailsPayloadInject = document.getElementById('monthlyReportCompiledDetailsPayloadInject');
+
+    const brandHeader = document.getElementById('brandHeader');
+    const headerSubtitle = document.getElementById('headerSubtitle');
+    const horizonHeading = document.getElementById('horizonHeading');
+    const colorKeyHeading = document.getElementById('colorKeyHeading');
+    const pipelineHeading = document.getElementById('pipelineHeading');
+    const purgeDataLink = document.getElementById('purgeDataLink');
+    const insightPanelTitle = document.getElementById('insightPanelTitle');
+    const insightSystemNarrativeText = document.getElementById('insightSystemNarrativeText');
+
+    let appEngineDatabase = JSON.parse(localStorage.getItem('dailyPulseEngineMatrixData')) || {};
+    let cycleIsolatedStorageDatabase = JSON.parse(localStorage.getItem('cycleIsolatedMatrixData')) || {};
+    let globalActiveThemeTrackerToken = 'sakura';
+    let locallySelectedCycleTargetDateKeyStr = null;
+
+    // BACKGROUND SAKURA ANIMATION PARTICLES ENGINE
+    const canvas = document.getElementById('ambientParticleCanvas');
+    const ctx = canvas.getContext('2d');
+    let matrixParticleArraySet = [];
+
+    function syncCanvasScreenBoundaryProportions() {
+        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', syncCanvasScreenBoundaryProportions);
+    syncCanvasScreenBoundaryProportions();
+
+    class AestheticVisualParticle {
+        constructor() { this.resetParticleState(); }
+        resetParticleState() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height - canvas.height;
+            this.size = Math.random() * 6 + 4;
+            this.speedX = Math.random() * 1.5 - 0.5;
+            this.speedY = Math.random() * 1.2 + 0.8;
+            this.rotationAngle = Math.random() * 360;
+            this.spinVelocity = Math.random() * 2 - 1;
+        }
+        updateAndRenderState() {
+            this.y += this.speedY;
+            this.x += this.speedX;
+            this.rotationAngle += this.spinVelocity;
+            if (this.y > canvas.height) { this.resetParticleState(); }
+            
+            ctx.save();
+            ctx.translate(this.x, this.y);
+            ctx.rotate((this.rotationAngle * Math.PI) / 180);
+            
+            if (globalActiveThemeTrackerToken === 'korean') {
+                ctx.fillStyle = 'rgba(210, 196, 227, 0.6)';
+            } else if (globalActiveThemeTrackerToken === 'german') {
+                ctx.fillStyle = 'rgba(122, 146, 132, 0.4)';
+            } else {
+                ctx.fillStyle = 'rgba(246, 189, 198, 0.7)';
+            }
+            
+            ctx.beginPath();
+            ctx.ellipse(0, 0, this.size, this.size / 1.7, 0, 0, 2 * Math.PI);
+            ctx.fill();
+            ctx.restore();
+        }
+    }
+
+    function deployParticleMatrixGenerators() {
+        matrixParticleArraySet = [];
+        for (let i = 0; i < 25; i++) { matrixParticleArraySet.push(new AestheticVisualParticle()); }
+    }
+    function executionRenderLoop() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        matrixParticleArraySet.forEach(p => p.updateAndRenderState());
+        requestAnimationFrame(executionRenderLoop);
+    }
+    deployParticleMatrixGenerators();
+    executionRenderLoop();
+
+    // GENERATE PROPS WITHOUT WEEKDAYS (CLEAN DAY + NUMBERS ONLY)
+    function generateChronologicalTimeTrackers() {
+        numericDayMatrixContainer.innerHTML = '';
+        internalCycleCalendarNodeMap.innerHTML = '';
+        
+        const currentYearInstance = new Date().getFullYear();
+        const currentMonthInstance = String(new Date().getMonth() + 1).padStart(2, '0');
+
+        for (let absoluteDayIndex = 1; absoluteDayIndex <= 31; absoluteDayIndex++) {
+            const formattedDayPadded = String(absoluteDayIndex).padStart(2, '0');
+            const dateStringKeyIdentifier = `${currentYearInstance}-${currentMonthInstance}-${formattedDayPadded}`;
+            
+            // 1. Core Primary Tracking Grid Block Builder (Day X Format Only)
+            const primaryDateNodeElement = document.createElement('div');
+            primaryDateNodeElement.className = 'date-node';
+            primaryDateNodeElement.innerHTML = `<span class="node-day">DAY</span><span class="node-num">${absoluteDayIndex}</span>`;
+            
+            if (appEngineDatabase[dateStringKeyIdentifier]) {
+                const dayVibeProfile = appEngineDatabase[dateStringKeyIdentifier].vibe;
+                primaryDateNodeElement.style.backgroundColor = `var(--tint-${dayVibeProfile})`;
+            }
+            
+            primaryDateNodeElement.addEventListener('click', () => triggerSurveyEngineModal(dateStringKeyIdentifier, absoluteDayIndex));
+            numericDayMatrixContainer.appendChild(primaryDateNodeElement);
+
+            // 2. High-Isolation Menstrual Sanctuary Calendar Module Grid (Day X Format Only)
+            const cycleNodeElement = document.createElement('div');
+            cycleNodeElement.className = 'cycle-node';
+            cycleNodeElement.innerHTML = `<span class="cycle-node-day">DAY</span><span class="cycle-node-num">${absoluteDayIndex}</span>`;
+            
+            if (cycleIsolatedStorageDatabase[dateStringKeyIdentifier] && cycleIsolatedStorageDatabase[dateStringKeyIdentifier].flow !== 'none') {
+                const currentFlowVolumeClass = cycleIsolatedStorageDatabase[dateStringKeyIdentifier].flow;
+                cycleNodeElement.style.backgroundColor = `var(--tint-cycle-${currentFlowVolumeClass})`;
+                cycleNodeElement.style.color = '#fff';
+            } else {
+                cycleNodeElement.style.backgroundColor = 'var(--card-base)';
+                cycleNodeElement.style.color = 'var(--text-dark)';
+            }
+
+            cycleNodeElement.addEventListener('click', () => {
+                document.querySelectorAll('.cycle-node').forEach(n => n.classList.remove('selected-day-node'));
+                cycleNodeElement.classList.add('selected-day-node');
+                selectDateForIsolatedCycleDataLogging(dateStringKeyIdentifier, absoluteDayIndex);
+            });
+            internalCycleCalendarNodeMap.appendChild(cycleNodeElement);
+        }
+    }
+
+    // GENERAL SURVEY INTERACTION CONTROLS
+    function triggerSurveyEngineModal(dateStringKey, displayIndexNum) {
+        operationalDateStringKey.value = dateStringKey;
+        targetModalFormattedTitle.innerText = `Reflections: Day ${displayIndexNum}`;
+
+        if (appEngineDatabase[dateStringKey]) {
+            const cachedObjectData = appEngineDatabase[dateStringKey];
+            updateVibeSelectionChips(cachedObjectData.vibe);
+            updateWaterInterfaceCounters(parseInt(cachedObjectData.water || 0));
+            document.getElementById('barometricWeatherInput').value = cachedObjectData.weather || 'stable';
+            
+            setSliderValueAndTriggerLabel('sleepScore', cachedObjectData.sleep || 8);
+            setSliderValueAndTriggerLabel('anxietyScore', cachedObjectData.anxiety || 1);
+            setSliderValueAndTriggerLabel('headacheScore', cachedObjectData.headache || 1);
+            setSliderValueAndTriggerLabel('jawPainScore', cachedObjectData.jawPain || 1);
+            setSliderValueAndTriggerLabel('cryingScore', cachedObjectData.crying || 1);
+            document.getElementById('qualitativeDiary').value = cachedObjectData.notes || '';
+        } else {
+            updateVibeSelectionChips('peaceful');
+            updateWaterInterfaceCounters(0);
+            document.getElementById('barometricWeatherInput').value = 'stable';
+            setSliderValueAndTriggerLabel('sleepScore', 8);
+            setSliderValueAndTriggerLabel('anxietyScore', 1);
+            setSliderValueAndTriggerLabel('headacheScore', 1);
+            setSliderValueAndTriggerLabel('jawPainScore', 1);
+            setSliderValueAndTriggerLabel('cryingScore', 1);
+            document.getElementById('qualitativeDiary').value = '';
+        }
+        surveyEngineModal.classList.add('active');
+    }
+
+    function setSliderValueAndTriggerLabel(id, val) {
+        const sliderInput = document.getElementById(id);
+        sliderInput.value = val;
+        sliderInput.nextElementSibling.innerText = val;
+    }
+
+    function hideSurveyEngineModal() { surveyEngineModal.classList.remove('active'); }
+
+    function updateSliderOutputText(element) {
+        element.nextElementSibling.innerText = element.value;
+    }
+
+    // CHIP PARAMETER CAPTURING
+    document.querySelectorAll('#feedbackVibeMatrix .chip-option').forEach(chip => {
+        chip.addEventListener('click', () => {
+            updateVibeSelectionChips(chip.getAttribute('data-value'));
+        });
+    });
+
+    function updateVibeSelectionChips(vibeValue) {
+        document.querySelectorAll('#feedbackVibeMatrix .chip-option').forEach(c => c.classList.remove('selected'));
+        selectedFeedbackVibe.value = vibeValue;
+        const selectedChipTarget = Array.from(document.querySelectorAll('#feedbackVibeMatrix .chip-option')).find(c => c.getAttribute('data-value') === vibeValue);
+        if (selectedChipTarget) selectedChipTarget.classList.add('selected');
+    }
+
+    // WATER COUNTER ENGINE
+    function adjustWaterValue(deltaValue) {
+        let parsedCurrentVal = parseInt(hiddenWaterInputVolume.value) || 0;
+        parsedCurrentVal = Math.max(0, parsedCurrentVal + deltaValue);
+        updateWaterInterfaceCounters(parsedCurrentVal);
+    }
+
+    function updateWaterInterfaceCounters(targetVolumeValue) {
+        hiddenWaterInputVolume.value = targetVolumeValue;
+        waterMetricValueDisplay.innerText = `${targetVolumeValue} Glass${targetVolumeValue === 1 ? '' : 'es'}`;
+    }
+
+    // SUBMIT DATA LOG MODULE
+    expandedTelemetryForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const targetTargetDateKey = operationalDateStringKey.value;
+        
+        appEngineDatabase[targetTargetDateKey] = {
+            vibe: selectedFeedbackVibe.value,
+            water: hiddenWaterInputVolume.value,
+            weather: document.getElementById('barometricWeatherInput').value,
+            sleep: document.getElementById('sleepScore').value,
+            anxiety: document.getElementById('anxietyScore').value,
+            headache: document.getElementById('headacheScore').value,
+            jawPain: document.getElementById('jawPainScore').value,
+            crying: document.getElementById('cryingScore').value,
+            notes: document.getElementById('qualitativeDiary').value
+        };
+
+        localStorage.setItem('dailyPulseEngineMatrixData', JSON.stringify(appEngineDatabase));
+        hideSurveyEngineModal();
+        generateChronologicalTimeTrackers();
+        reconstructRenderedLedgerPipelines();
+        evaluateDiagnosticClinicalInsightStreams();
+    });
+
+    // ISOLATED ADVANCED CYCLE ENGINE CONTROLS
+    function revealIsolatedCycleCalendarModal() {
+        locallySelectedCycleTargetDateKeyStr = null;
+        cycleActionControlInterfaceDeck.style.display = 'none';
+        cycleTargetStatusFeedbackLabel.innerText = "Select a day token above to update cycle matrix parameters";
+        reconstructIsolatedCycleLogsHistoryStream();
+        isolatedCycleModalWorkspace.classList.add('active');
+    }
+
+    function hideIsolatedCycleCalendarModal() { isolatedCycleModalWorkspace.classList.remove('active'); }
+
+    function selectDateForIsolatedCycleDataLogging(dateKey, numericIndex) {
+        locallySelectedCycleTargetDateKeyStr = dateKey;
+        cycleTargetStatusFeedbackLabel.innerText = `Target Locked: Day ${numericIndex}`;
+        cycleActionControlInterfaceDeck.style.display = 'flex';
+
+        if (cycleIsolatedStorageDatabase[dateKey]) {
+            const currentCacheInstance = cycleIsolatedStorageDatabase[dateKey];
+            cycleFlowInputDropdown.value = currentCacheInstance.flow || 'none';
+            setSliderValueAndTriggerLabel('cycleCrampsSlider', currentCacheInstance.cramps || 1);
+            cycleSymptomBloat.checked = !!currentCacheInstance.bloat;
+            cycleSymptomFatigue.checked = !!currentCacheInstance.fatigue;
+            cycleSymptomMood.checked = !!currentCacheInstance.mood;
+            cycleSymptomBreasts.checked = !!currentCacheInstance.breasts;
+            cycleDiaryNotes.value = currentCacheInstance.notes || '';
+        } else {
+            cycleFlowInputDropdown.value = 'none';
+            setSliderValueAndTriggerLabel('cycleCrampsSlider', 1);
+            cycleSymptomBloat.checked = false;
+            cycleSymptomFatigue.checked = false;
+            cycleSymptomMood.checked = false;
+            cycleSymptomBreasts.checked = false;
+            cycleDiaryNotes.value = '';
+        }
+    }
+
+    function commitIsolatedCycleStateChange() {
+        if (!locallySelectedCycleTargetDateKeyStr) return;
+
+        cycleIsolatedStorageDatabase[locallySelectedCycleTargetDateKeyStr] = {
+            flow: cycleFlowInputDropdown.value,
+            cramps: document.getElementById('cycleCrampsSlider').value,
+            bloat: cycleSymptomBloat.checked,
+            fatigue: cycleSymptomFatigue.checked,
+            mood: cycleSymptomMood.checked,
+            breasts: cycleSymptomBreasts.checked,
+            notes: cycleDiaryNotes.value
+        };
+
+        localStorage.setItem('cycleIsolatedMatrixData', JSON.stringify(cycleIsolatedStorageDatabase));
+        generateChronologicalTimeTrackers();
+        reconstructIsolatedCycleLogsHistoryStream();
+        evaluateDiagnosticClinicalInsightStreams();
+        
+        cycleActionControlInterfaceDeck.style.display = 'none';
+        cycleTargetStatusFeedbackLabel.innerText = "Cycle state update committed. Select another target horizon line.";
+    }
+
+    function clearIsolatedCycleStateRow() {
+        if (!locallySelectedCycleTargetDateKeyStr) return;
+        
+        if (cycleIsolatedStorageDatabase[locallySelectedCycleTargetDateKeyStr]) {
+            delete cycleIsolatedStorageDatabase[locallySelectedCycleTargetDateKeyStr];
+            localStorage.setItem('cycleIsolatedMatrixData', JSON.stringify(cycleIsolatedStorageDatabase));
+            generateChronologicalTimeTrackers();
+            reconstructIsolatedCycleLogsHistoryStream();
+            evaluateDiagnosticClinicalInsightStreams();
+        }
+        
+        cycleActionControlInterfaceDeck.style.display = 'none';
+        cycleTargetStatusFeedbackLabel.innerText = "Log deleted from browser device terminal local storage.";
+    }
+
+    function reconstructIsolatedCycleLogsHistoryStream() {
+        internalCycleHistoryLogFeed.innerHTML = '';
+        const indexKeysArraySorted = Object.keys(cycleIsolatedStorageDatabase).sort((a,b) => b.localeCompare(a));
+
+        let generatedLogCount = 0;
+        indexKeysArraySorted.forEach(key => {
+            const dataRowInstance = cycleIsolatedStorageDatabase[key];
+            if (dataRowInstance.flow !== 'none' || parseInt(dataRowInstance.cramps) > 1 || dataRowInstance.notes) {
+                generatedLogCount++;
+                const textOutputNode = document.createElement('div');
+                textOutputNode.style.cssText = "background:var(--card-base); padding:8px; border:1px solid var(--text-dark); font-size:0.75rem; border-radius:6px;";
+                
+                const splitStringBits = key.split('-');
+                const displayDayNumString = parseInt(splitStringBits[2] || '0');
+                
+                let activeSignalsSet = [];
+                if (dataRowInstance.bloat) activeSignalsSet.push('🎈Bloat');
+                if (dataRowInstance.fatigue) activeSignalsSet.push('☁️Fatigue');
+                if (dataRowInstance.mood) activeSignalsSet.push('⚡Mood');
+                if (dataRowInstance.breasts) activeSignalsSet.push('🍒Tenderness');
+
+                textOutputNode.innerHTML = `
+                    <div style="display:flex; justify-content:space-between; font-weight:800; color:#d65a6f; text-transform:uppercase;">
+                        <span>📅 Day ${displayDayNumString}</span>
+                        <span>🩸 Flow: ${dataRowInstance.flow}</span>
+                    </div>
+                    <div style="margin-top:4px; font-weight:600;">⚡ Cramp Intensity Scale: ${dataRowInstance.cramps}/10</div>
+                    ${activeSignalsSet.length > 0 ? `<div style="margin-top:2px; font-size:0.68rem; color:var(--text-soft); font-weight:bold;">Signals: ${activeSignalsSet.join(', ')}</div>` : ''}
+                    ${dataRowInstance.notes ? `<div style="margin-top:4px; font-style:italic; border-left:1px solid #d65a6f; padding-left:4px; color:var(--text-soft);">${dataRowInstance.notes}</div>` : ''}
+                `;
+                internalCycleHistoryLogFeed.appendChild(textOutputNode);
+            }
+        });
+
+        if (generatedLogCount === 0) {
+            internalCycleHistoryLogFeed.innerHTML = `<p style="font-size:0.75rem; color:var(--text-soft); font-style:italic; text-align:center; padding:10px 0;">No active cycle tracking logs logged in device storage framework.</p>`;
+        }
+    }
+
+    // MONTHLY REPORT COMPILATION INFRASTRUCTURE
+    function revealMonthlySummaryReportModal() {
+        monthlyReportCompiledDetailsPayloadInject.innerHTML = "";
+        
+        const combinedUniqueSortedDateKeys = new Set([
+            ...Object.keys(appEngineDatabase),
+            ...Object.keys(cycleIsolatedStorageDatabase)
+        ]);
+        
+        const sortedArrayInstances = Array.from(combinedUniqueSortedDateKeys).sort((a,b) => a.localeCompare(b));
+        
+        if (sortedArrayInstances.length === 0) {
+            monthlyReportCompiledDetailsPayloadInject.innerHTML = `<p style="text-align:center; color:var(--text-soft); font-style:italic; padding:30px 0;">No telemetry metrics or menstrual logs recorded anywhere on this local node to compile.</p>`;
+            monthlySummaryReportOverlayWorkspace.classList.add('active');
+            return;
+        }
+
+        let reportStructureHTMLString = "";
+        
+        // Track stats for calculations
+        let totalGeneralLogs = 0;
+        let totalPeriodLogs = 0;
+        let runningMaxHeadache = 0;
+        let runningMaxJaw = 0;
+        let runningMaxCrying = 0;
+        
+        let logsIterationBlockHTML = `<div class="report-section-divider"><h4>🗓️ Chronological Daily Log Streams</h4><div style="margin-top:10px;">`;
+
+        sortedArrayInstances.forEach(keyKey => {
+            const splittedBits = keyKey.split('-');
+            const computedDayIndex = parseInt(splittedBits[2] || '0');
+            
+            const generalDataMatch = appEngineDatabase[keyKey];
+            const cycleDataMatch = cycleIsolatedStorageDatabase[keyKey];
+            
+            if (generalDataMatch) totalGeneralLogs++;
+            if (cycleDataMatch && cycleDataMatch.flow !== 'none') totalPeriodLogs++;
+
+            logsIterationBlockHTML += `<div class="report-day-box">
+                <div style="font-family:'Impact', sans-serif; font-size:1.2rem; border-bottom:1px dashed var(--text-dark); padding-bottom:4px; margin-bottom:8px; display:flex; justify-content:space-between;">
+                    <span>DAY ${computedDayIndex}</span>
+                    <span style="font-size:0.75rem; font-family:sans-serif; color:var(--text-soft); font-weight:bold;">${splittedBits[0]}/${splittedBits[1]}</span>
+                </div>`;
+                
+            if (generalDataMatch) {
+                const currentH = parseInt(generalDataMatch.headache || 1);
+                const currentJ = parseInt(generalDataMatch.jawPain || 1);
+                const currentC = parseInt(generalDataMatch.crying || 1);
+                if (currentH > runningMaxHeadache) runningMaxHeadache = currentH;
+                if (currentJ > runningMaxJaw) runningMaxJaw = currentJ;
+                if (currentC > runningMaxCrying) runningMaxCrying = currentC;
+
+                logsIterationBlockHTML += `
+                    <div style="font-size:0.85rem; line-height:1.4; margin-bottom:6px;">
+                        <b>General Health Telemetry:</b><br>
+                        • Vibe Profile: <span style="text-transform:uppercase; font-weight:bold;">${generalDataMatch.vibe}</span> | Hydration Level: ${generalDataMatch.water || 0} Glasses<br>
+                        • Sleep: ${generalDataMatch.sleep || 8} Hours<br>
+                        • Pain Thresholds Matrix: [🧠 Migraine Intensity: ${generalDataMatch.headache}/10] [🦷 TMJ Clenching: ${generalDataMatch.jawPain}/10] [⚡ Anxiety: ${generalDataMatch.anxiety}/10]<br>
+                        • Emotional Release / Crying: ${generalDataMatch.crying}/10<br>
+                        • Environment Sky Matrix: ${generalDataMatch.weather || 'stable'}<br>
+                        ${generalDataMatch.notes ? `• Reflective Diary Notes: <i>"${generalDataMatch.notes}"</i>` : ''}
+                    </div>
+                `;
+            }
+            
+            if (cycleDataMatch && (cycleDataMatch.flow !== 'none' || parseInt(cycleDataMatch.cramps) > 1 || cycleDataMatch.notes)) {
+                let checkFlags = [];
+                if (cycleDataMatch.bloat) checkFlags.push('🎈Bloating');
+                if (cycleDataMatch.fatigue) checkFlags.push('☁️Heavy Fatigue');
+                if (cycleDataMatch.mood) checkFlags.push('⚡Mood Swings');
+                if (cycleDataMatch.breasts) checkFlags.push('🍒Breast Tenderness');
+
+                logsIterationBlockHTML += `
+                    <div style="font-size:0.85rem; line-height:1.4; border-top:1px dotted #d65a6f; padding-top:6px; margin-top:4px; color:#b33939;">
+                        <b>Menstrual Tracker Matrix Entry:</b><br>
+                        • Flow Metric Volume: <span style="text-transform:uppercase; font-weight:bold;">${cycleDataMatch.flow}</span><br>
+                        • Physical Cramping Severity: ${cycleDataMatch.cramps || 1}/10<br>
+                        ${checkFlags.length > 0 ? `• Symptom Checklist: ${checkFlags.join(', ')}<br>` : ''}
+                        ${cycleDataMatch.notes ? `• Cycle Private Diary Notes: <i>"${cycleDataMatch.notes}"</i>` : ''}
+                    </div>
+                `;
+            }
+
+            logsIterationBlockHTML += `</div>`;
+        });
+        
+        logsIterationBlockHTML += `</div></div>`;
+
+        // Compose Header Summary Statistics Component Card
+        reportStructureHTMLString += `
+            <div style="border:3px solid var(--text-dark); border-radius:8px; padding:15px; background:var(--bg-cozy); display:grid; grid-template-columns:repeat(2, 1fr); gap:12px; font-size:0.85rem; font-weight:bold; text-transform:uppercase;">
+                <div>📈 Health Logs Saved: <span style="font-family:'Impact', sans-serif; font-size:1.2rem; color:var(--text-dark);">${totalGeneralLogs}</span></div>
+                <div>🩸 Active Flow Days: <span style="font-family:'Impact', sans-serif; font-size:1.2rem; color:#d65a6f;">${totalPeriodLogs}</span></div>
+                <div>💥 Peak Migraine Score: <span style="font-family:'Impact', sans-serif; font-size:1.2rem; color:var(--text-dark);">${runningMaxHeadache}/10</span></div>
+                <div>🦷 Max Jaw Strain Score: <span style="font-family:'Impact', sans-serif; font-size:1.2rem; color:var(--text-dark);">${runningMaxJaw}/10</span></div>
+                <div>💧 Max Crying/Release: <span style="font-family:'Impact', sans-serif; font-size:1.2rem; color:var(--text-dark);">${runningMaxCrying}/10</span></div>
+            </div>
+        `;
+        
+        monthlyReportCompiledDetailsPayloadInject.innerHTML = reportStructureHTMLString + logsIterationBlockHTML;
+        monthlySummaryReportOverlayWorkspace.classList.add('active');
+    }
+
+    function hideMonthlySummaryReportModal() { monthlySummaryReportOverlayWorkspace.classList.remove('active'); }
+
+    // PIPELINE LOG VIEW DISPLAY COMPOSER
+    function reconstructRenderedLedgerPipelines() {
+        ledgerPipelineFeed.innerHTML = '';
+        const dictionaryLogKeysSorted = Object.keys(appEngineDatabase).sort((a,b) => b.localeCompare(a));
+
+        if (dictionaryLogKeysSorted.length === 0) {
+            ledgerPipelineFeed.innerHTML = `
+                <div style="text-align: center; padding: 40px 20px; border: 2px dashed var(--text-soft); border-radius: var(--radius-premium);">
+                    <p style="text-transform: uppercase; font-size: 0.8rem; font-weight: 700; color: var(--text-soft);">Telemetry Buffer Clear</p>
+                    <p style="font-size: 0.75rem; color: var(--text-soft); margin-top: 5px;">No active data parameters logged on this engine terminal device. Select a day node matrix slot to initiate tracking lines.</p>
+                </div>`;
+            return;
+        }
+
+        dictionaryLogKeysSorted.forEach(key => {
+            const dataNodeInstance = appEngineDatabase[key];
+            const generalizedVibeIconMap = {
+                peaceful: '🌿', stressed: '⚡', creative: '✨', fatigued: '☁️', pain: '🤕', joyful: '☀️', emotional: '💧'
+            };
+
+            const splitKeys = key.split('-');
+            const computedDayDisplay = parseInt(splitKeys[2] || '0');
+
+            const itemNodeBox = document.createElement('div');
+            itemNodeBox.className = 'ledger-item';
+            
+            itemNodeBox.innerHTML = `
+                <div class="ledger-meta">
+                    <div class="ledger-date">Day ${computedDayDisplay}</div>
+                    <div class="badge-row">
+                        <span class="mini-badge" style="background:var(--tint-${dataNodeInstance.vibe})">${dataNodeInstance.vibe}</span>
+                        <span class="mini-badge">💧 ${dataNodeInstance.water || 0} Glass(es)</span>
+                        <span class="mini-badge">🌤️ ${dataNodeInstance.weather || 'stable'}</span>
+                        <span class="mini-badge">😴 ${dataNodeInstance.sleep || 8}h</span>
+                    </div>
+                    <div class="badge-row" style="margin-top: 2px;">
+                        <span class="mini-badge" style="font-size:0.65rem; color:var(--text-soft);">🧠 Anx: ${dataNodeInstance.anxiety || 1}</span>
+                        <span class="mini-badge" style="font-size:0.65rem; color:var(--text-soft);">💥 Migraine: ${dataNodeInstance.headache || 1}</span>
+                        <span class="mini-badge" style="font-size:0.65rem; color:var(--text-soft);">🦷 TMJ: ${dataNodeInstance.jawPain || 1}</span>
+                        <span class="mini-badge" style="font-size:0.65rem; color:var(--text-soft);">💧 Cry: ${dataNodeInstance.crying || 1}</span>
+                    </div>
+                    ${dataNodeInstance.notes ? `<div class="ledger-notes">${dataNodeInstance.notes}</div>` : ''}
+                </div>
+                <div class="vibe-icon">${generalizedVibeIconMap[dataNodeInstance.vibe] || '📝'}</div>
+            `;
+            ledgerPipelineFeed.appendChild(itemNodeBox);
+        });
+    }
+
+    // AUTOMATED SYSTEM DIAGNOSTICS STREAM
+    function evaluateDiagnosticClinicalInsightStreams() {
+        const sortedLogTimelineKeys = Object.keys(appEngineDatabase).sort((a,b) => a.localeCompare(b));
+        const cycleDatesArray = Object.keys(cycleIsolatedStorageDatabase).filter(k => cycleIsolatedStorageDatabase[k].flow !== 'none');
+        
+        if (sortedLogTimelineKeys.length === 0) {
+            insightSystemNarrativeText.innerText = "Analyzing physical headache telemetry data lines... Track parameters inside the matrix below.";
+            return;
+        }
+
+        const latestCapturedDataNodeKey = sortedLogTimelineKeys[sortedLogTimelineKeys.length - 1];
+        const latestDataNodeInstance = appEngineDatabase[latestCapturedDataNodeKey];
+        
+        let algorithmicAnalysisStringResult = "";
+
+        const calculatedHeadacheValueInt = parseInt(latestDataNodeInstance.headache || 1);
+        const calculatedJawPainValueInt = parseInt(latestDataNodeInstance.jawPain || 1);
+        const calculatedAnxietyValueInt = parseInt(latestDataNodeInstance.anxiety || 1);
+        const extractedHydrationValueInt = parseInt(latestDataNodeInstance.water || 0);
+
+        if (calculatedHeadacheValueInt >= 6 || calculatedJawPainValueInt >= 6) {
+            algorithmicAnalysisStringResult += "Spike registered along physical head/facial sensory pathways. ";
+            if (calculatedJawPainValueInt >= 6 && calculatedAnxietyValueInt >= 6) {
+                algorithmicAnalysisStringResult += "Elevated psychogenic distress lines correlate with jaw/TMJ structural strain variables. Night clenching protocols suspected. ";
+            }
+            if (extractedHydrationValueInt <= 3) {
+                algorithmicAnalysisStringResult += "Symptom landscape compounded by low water metric volume tracking lines. Fluid restoration advised. ";
+            }
+            if (latestDataNodeInstance.weather === 'pressure_drop' || latestDataNodeInstance.weather === 'storm') {
+                algorithmicAnalysisStringResult += "External meteorological barometric pressure drops are shifting concurrently. ";
+            }
+        }
+
+        if (cycleDatesArray.length > 0 && calculatedHeadacheValueInt >= 5) {
+            let matchesCycleWindow = false;
+            const headacheDayIndex = parseInt(latestCapturedDataNodeKey.split('-')[2] || '0');
+            
+            cycleDatesArray.forEach(cDate => {
+                const cycleDayIndex = parseInt(cDate.split('-')[2] || '0');
+                if (Math.abs(headacheDayIndex - cycleDayIndex) <= 4) { matchesCycleWindow = true; }
+            });
+
+            if (matchesCycleWindow) {
+                algorithmicAnalysisStringResult += "Physical migraine occurrences map cleanly to temporal advanced flower cycle tracking points. Vestibular/hormonal trigger correlation metrics confirmed. ";
+            }
+        }
+
+        if (!algorithmicAnalysisStringResult) {
+            algorithmicAnalysisStringResult = "Telemetry values tracking within baseline comfort operational guidelines. Homeostatic status reading clear across standard parameters.";
+        }
+
+        insightSystemNarrativeText.innerText = algorithmicAnalysisStringResult;
+    }
+
+    // MULTI-AESTHETIC REGIME OVERRIDES
+    function shiftGlobalAesthetic(themeDesignatorToken, processingButtonElement) {
+        globalActiveThemeTrackerToken = themeDesignatorToken;
+        document.documentElement.removeAttribute('data-theme');
+        
+        document.querySelectorAll('.mood-dot-btn').forEach(b => b.classList.remove('active-theme'));
+        if (processingButtonElement) processingButtonElement.classList.add('active-theme');
+
+        if (themeDesignatorToken === 'korean') {
+            document.documentElement.setAttribute('data-theme', 'korean');
+            brandHeader.innerText = "DAILY PULSE";
+            headerSubtitle.innerText = "// 弘大マトリクス // HONGDAE HARMONIC SOUNDSCAPE SPACE";
+            horizonHeading.innerText = "Select Day (1 - 31)";
+            colorKeyHeading.innerText = "Aura Frequency Color Index";
+            pipelineHeading.innerText = "Historic Stream Feed Log Lines";
+            purgeDataLink.innerText = "Purge Local System Cache Memory Data";
+            insightPanelTitle.innerText = "Neural Aesthetic Dashboard Core";
+        } else if (themeDesignatorToken === 'german') {
+            document.documentElement.setAttribute('data-theme', 'german');
+            brandHeader.innerText = "TAGESPULS";
+            headerSubtitle.innerText = "// ALPINE TELEMETRY MATRIX // OCULAR CALM ENVIRONMENT";
+            horizonHeading.innerText = "Tag auswählen (1 - 31)";
+            colorKeyHeading.innerText = "Farbschlüssel der Matrix";
+            pipelineHeading.innerText = "Aktuelle Reflexions-Pipeline";
+            purgeDataLink.innerText = "Lokale Gerätespeicher-Datensätze löschen";
+            insightPanelTitle.innerText = "Klinisches Korrelations-Dashboard";
+        } else {
+            brandHeader.innerText = "DAILY PULSE";
+            headerSubtitle.innerText = "// 桜マトリクス // CHERRY BLOSSOM OCULAR MATRIX";
+            horizonHeading.innerText = "Select Day (1 - 31)";
+            colorKeyHeading.innerText = "Matrix Color Key";
+            pipelineHeading.innerText = "Recent Reflections Pipeline";
+            purgeDataLink.innerText = "Wipe Local Device Memory Records";
+            insightPanelTitle.innerText = "Clinical Correlation Dashboard";
+        }
+        evaluateDiagnosticClinicalInsightStreams();
+    }
+
+    // CACHE WIPE PROTOCOLS
+    function purgeSystemLogs() {
+        if (confirm("CRITICAL PROTOCOL TRIGGERED: Clear all operational logging memory rows from this browser environment?")) {
+            localStorage.removeItem('dailyPulseEngineMatrixData');
+            localStorage.removeItem('cycleIsolatedMatrixData');
+            appEngineDatabase = {};
+            cycleIsolatedStorageDatabase = {};
+            generateChronologicalTimeTrackers();
+            reconstructRenderedLedgerPipelines();
+            evaluateDiagnosticClinicalInsightStreams();
+        }
+    }
+
+    // SYSTEM INIT EXECUTION INDEX
+    generateChronologicalTimeTrackers();
+    reconstructRenderedLedgerPipelines();
+    evaluateDiagnosticClinicalInsightStreams();
+</script>
+
+</body>
+</html>
