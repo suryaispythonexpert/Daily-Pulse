@@ -452,40 +452,40 @@
             <div class="question-block">
                 <label id="sleepLabel">Sleep Hours (0-24)</label>
                 <div class="slider-wrapper">
-                    <input type="range" id="sleepScore" min="0" max="24" value="8" oninput="updateSliderOutputText(this)">
-                    <span class="slider-indicator">8</span>
+                    <input type="range" id="sleepScore" min="0" max="24" value="0" oninput="updateSliderOutputText(this)">
+                    <span class="slider-indicator">0</span>
                 </div>
             </div>
 
             <div class="question-block">
                 <label id="anxLabel">Anxiety Assessment Metric</label>
                 <div class="slider-wrapper">
-                    <input type="range" id="anxietyScore" min="1" max="10" value="1" oninput="updateSliderOutputText(this)">
-                    <span class="slider-indicator">1</span>
+                    <input type="range" id="anxietyScore" min="0" max="10" value="0" oninput="updateSliderOutputText(this)">
+                    <span class="slider-indicator">0</span>
                 </div>
             </div>
 
             <div class="question-block">
                 <label id="headacheLabel">Headache / Migraine Spectrum Range</label>
                 <div class="slider-wrapper">
-                    <input type="range" id="headacheScore" min="1" max="10" value="1" oninput="updateSliderOutputText(this)">
-                    <span class="slider-indicator">1</span>
+                    <input type="range" id="headacheScore" min="0" max="10" value="0" oninput="updateSliderOutputText(this)">
+                    <span class="slider-indicator">0</span>
                 </div>
             </div>
 
             <div class="question-block">
                 <label id="jawLabel">Jaw Pain / TMJ Clenching Severity</label>
                 <div class="slider-wrapper">
-                    <input type="range" id="jawPainScore" min="1" max="10" value="1" oninput="updateSliderOutputText(this)">
-                    <span class="slider-indicator">1</span>
+                    <input type="range" id="jawPainScore" min="0" max="10" value="0" oninput="updateSliderOutputText(this)">
+                    <span class="slider-indicator">0</span>
                 </div>
             </div>
 
             <div class="question-block">
                 <label id="cryingLabel">Emotional Release / Crying Severity</label>
                 <div class="slider-wrapper">
-                    <input type="range" id="cryingScore" min="1" max="10" value="1" oninput="updateSliderOutputText(this)">
-                    <span class="slider-indicator">1</span>
+                    <input type="range" id="cryingScore" min="0" max="10" value="0" oninput="updateSliderOutputText(this)">
+                    <span class="slider-indicator">0</span>
                 </div>
             </div>
 
@@ -537,8 +537,8 @@
                 <div class="question-block" style="margin-bottom:0;">
                     <label style="color:#d65a6f;">⚡ Cramps & Uterine Pain Intensity</label>
                     <div class="slider-wrapper">
-                        <input type="range" id="cycleCrampsSlider" min="1" max="10" value="1" oninput="updateSliderOutputText(this)" style="background:#d65a6f;">
-                        <span class="slider-indicator" style="color:#d65a6f;">1</span>
+                        <input type="range" id="cycleCrampsSlider" min="0" max="10" value="0" oninput="updateSliderOutputText(this)" style="background:#d65a6f;">
+                        <span class="slider-indicator" style="color:#d65a6f;">0</span>
                     </div>
                 </div>
 
@@ -764,21 +764,21 @@
             updateWaterInterfaceCounters(parseInt(cachedObjectData.water || 0));
             document.getElementById('barometricWeatherInput').value = cachedObjectData.weather || 'stable';
             
-            setSliderValueAndTriggerLabel('sleepScore', cachedObjectData.sleep || 8);
-            setSliderValueAndTriggerLabel('anxietyScore', cachedObjectData.anxiety || 1);
-            setSliderValueAndTriggerLabel('headacheScore', cachedObjectData.headache || 1);
-            setSliderValueAndTriggerLabel('jawPainScore', cachedObjectData.jawPain || 1);
-            setSliderValueAndTriggerLabel('cryingScore', cachedObjectData.crying || 1);
+            setSliderValueAndTriggerLabel('sleepScore', cachedObjectData.sleep || 0);
+            setSliderValueAndTriggerLabel('anxietyScore', cachedObjectData.anxiety || 0);
+            setSliderValueAndTriggerLabel('headacheScore', cachedObjectData.headache || 0);
+            setSliderValueAndTriggerLabel('jawPainScore', cachedObjectData.jawPain || 0);
+            setSliderValueAndTriggerLabel('cryingScore', cachedObjectData.crying || 0);
             document.getElementById('qualitativeDiary').value = cachedObjectData.notes || '';
         } else {
             updateVibeSelectionChips('peaceful');
             updateWaterInterfaceCounters(0);
             document.getElementById('barometricWeatherInput').value = 'stable';
-            setSliderValueAndTriggerLabel('sleepScore', 8);
-            setSliderValueAndTriggerLabel('anxietyScore', 1);
-            setSliderValueAndTriggerLabel('headacheScore', 1);
-            setSliderValueAndTriggerLabel('jawPainScore', 1);
-            setSliderValueAndTriggerLabel('cryingScore', 1);
+            setSliderValueAndTriggerLabel('sleepScore', 0);
+            setSliderValueAndTriggerLabel('anxietyScore', 0);
+            setSliderValueAndTriggerLabel('headacheScore', 0);
+            setSliderValueAndTriggerLabel('jawPainScore', 0);
+            setSliderValueAndTriggerLabel('cryingScore', 0);
             document.getElementById('qualitativeDiary').value = '';
         }
         surveyEngineModal.classList.add('active');
@@ -865,7 +865,7 @@
         if (cycleIsolatedStorageDatabase[dateKey]) {
             const currentCacheInstance = cycleIsolatedStorageDatabase[dateKey];
             cycleFlowInputDropdown.value = currentCacheInstance.flow || 'none';
-            setSliderValueAndTriggerLabel('cycleCrampsSlider', currentCacheInstance.cramps || 1);
+            setSliderValueAndTriggerLabel('cycleCrampsSlider', currentCacheInstance.cramps || 0);
             cycleSymptomBloat.checked = !!currentCacheInstance.bloat;
             cycleSymptomFatigue.checked = !!currentCacheInstance.fatigue;
             cycleSymptomMood.checked = !!currentCacheInstance.mood;
@@ -873,7 +873,7 @@
             cycleDiaryNotes.value = currentCacheInstance.notes || '';
         } else {
             cycleFlowInputDropdown.value = 'none';
-            setSliderValueAndTriggerLabel('cycleCrampsSlider', 1);
+            setSliderValueAndTriggerLabel('cycleCrampsSlider', 0);
             cycleSymptomBloat.checked = false;
             cycleSymptomFatigue.checked = false;
             cycleSymptomMood.checked = false;
@@ -926,7 +926,7 @@
         let generatedLogCount = 0;
         indexKeysArraySorted.forEach(key => {
             const dataRowInstance = cycleIsolatedStorageDatabase[key];
-            if (dataRowInstance.flow !== 'none' || parseInt(dataRowInstance.cramps) > 1 || dataRowInstance.notes) {
+            if (dataRowInstance.flow !== 'none' || parseInt(dataRowInstance.cramps) > 0 || dataRowInstance.notes) {
                 generatedLogCount++;
                 const textOutputNode = document.createElement('div');
                 textOutputNode.style.cssText = "background:var(--card-base); padding:8px; border:1px solid var(--text-dark); font-size:0.75rem; border-radius:6px;";
@@ -1003,9 +1003,9 @@
                 </div>`;
                 
             if (generalDataMatch) {
-                const currentH = parseInt(generalDataMatch.headache || 1);
-                const currentJ = parseInt(generalDataMatch.jawPain || 1);
-                const currentC = parseInt(generalDataMatch.crying || 1);
+                const currentH = parseInt(generalDataMatch.headache || 0);
+                const currentJ = parseInt(generalDataMatch.jawPain || 0);
+                const currentC = parseInt(generalDataMatch.crying || 0);
                 if (currentH > runningMaxHeadache) runningMaxHeadache = currentH;
                 if (currentJ > runningMaxJaw) runningMaxJaw = currentJ;
                 if (currentC > runningMaxCrying) runningMaxCrying = currentC;
@@ -1014,7 +1014,7 @@
                     <div style="font-size:0.85rem; line-height:1.4; margin-bottom:6px;">
                         <b>General Health Telemetry:</b><br>
                         • Vibe Profile: <span style="text-transform:uppercase; font-weight:bold;">${generalDataMatch.vibe}</span> | Hydration Level: ${generalDataMatch.water || 0} Glasses<br>
-                        • Sleep: ${generalDataMatch.sleep || 8} Hours<br>
+                        • Sleep: ${generalDataMatch.sleep || 0} Hours<br>
                         • Pain Thresholds Matrix: [🧠 Migraine Intensity: ${generalDataMatch.headache}/10] [🦷 TMJ Clenching: ${generalDataMatch.jawPain}/10] [⚡ Anxiety: ${generalDataMatch.anxiety}/10]<br>
                         • Emotional Release / Crying: ${generalDataMatch.crying}/10<br>
                         • Environment Sky Matrix: ${generalDataMatch.weather || 'stable'}<br>
@@ -1023,7 +1023,7 @@
                 `;
             }
             
-            if (cycleDataMatch && (cycleDataMatch.flow !== 'none' || parseInt(cycleDataMatch.cramps) > 1 || cycleDataMatch.notes)) {
+            if (cycleDataMatch && (cycleDataMatch.flow !== 'none' || parseInt(cycleDataMatch.cramps) > 0 || cycleDataMatch.notes)) {
                 let checkFlags = [];
                 if (cycleDataMatch.bloat) checkFlags.push('🎈Bloating');
                 if (cycleDataMatch.fatigue) checkFlags.push('☁️Heavy Fatigue');
@@ -1034,7 +1034,7 @@
                     <div style="font-size:0.85rem; line-height:1.4; border-top:1px dotted #d65a6f; padding-top:6px; margin-top:4px; color:#b33939;">
                         <b>Menstrual Tracker Matrix Entry:</b><br>
                         • Flow Metric Volume: <span style="text-transform:uppercase; font-weight:bold;">${cycleDataMatch.flow}</span><br>
-                        • Physical Cramping Severity: ${cycleDataMatch.cramps || 1}/10<br>
+                        • Physical Cramping Severity: ${cycleDataMatch.cramps || 0}/10<br>
                         ${checkFlags.length > 0 ? `• Symptom Checklist: ${checkFlags.join(', ')}<br>` : ''}
                         ${cycleDataMatch.notes ? `• Cycle Private Diary Notes: <i>"${cycleDataMatch.notes}"</i>` : ''}
                     </div>
@@ -1061,7 +1061,10 @@
         monthlySummaryReportOverlayWorkspace.classList.add('active');
     }
 
-    function hideMonthlySummaryReportModal() { monthlySummaryReportOverlayWorkspace.classList.remove('active'); }
+    // FIXED: Corrected the modal hide function to remove the 'active' class
+    function hideMonthlySummaryReportModal() { 
+        monthlySummaryReportOverlayWorkspace.classList.remove('active'); 
+    }
 
     // PIPELINE LOG VIEW DISPLAY COMPOSER
     function reconstructRenderedLedgerPipelines() {
@@ -1096,13 +1099,13 @@
                         <span class="mini-badge" style="background:var(--tint-${dataNodeInstance.vibe})">${dataNodeInstance.vibe}</span>
                         <span class="mini-badge">💧 ${dataNodeInstance.water || 0} Glass(es)</span>
                         <span class="mini-badge">🌤️ ${dataNodeInstance.weather || 'stable'}</span>
-                        <span class="mini-badge">😴 ${dataNodeInstance.sleep || 8}h</span>
+                        <span class="mini-badge">😴 ${dataNodeInstance.sleep || 0}h</span>
                     </div>
                     <div class="badge-row" style="margin-top: 2px;">
-                        <span class="mini-badge" style="font-size:0.65rem; color:var(--text-soft);">🧠 Anx: ${dataNodeInstance.anxiety || 1}</span>
-                        <span class="mini-badge" style="font-size:0.65rem; color:var(--text-soft);">💥 Migraine: ${dataNodeInstance.headache || 1}</span>
-                        <span class="mini-badge" style="font-size:0.65rem; color:var(--text-soft);">🦷 TMJ: ${dataNodeInstance.jawPain || 1}</span>
-                        <span class="mini-badge" style="font-size:0.65rem; color:var(--text-soft);">💧 Cry: ${dataNodeInstance.crying || 1}</span>
+                        <span class="mini-badge" style="font-size:0.65rem; color:var(--text-soft);">🧠 Anx: ${dataNodeInstance.anxiety || 0}</span>
+                        <span class="mini-badge" style="font-size:0.65rem; color:var(--text-soft);">💥 Migraine: ${dataNodeInstance.headache || 0}</span>
+                        <span class="mini-badge" style="font-size:0.65rem; color:var(--text-soft);">🦷 TMJ: ${dataNodeInstance.jawPain || 0}</span>
+                        <span class="mini-badge" style="font-size:0.65rem; color:var(--text-soft);">💧 Cry: ${dataNodeInstance.crying || 0}</span>
                     </div>
                     ${dataNodeInstance.notes ? `<div class="ledger-notes">${dataNodeInstance.notes}</div>` : ''}
                 </div>
@@ -1127,9 +1130,9 @@
         
         let algorithmicAnalysisStringResult = "";
 
-        const calculatedHeadacheValueInt = parseInt(latestDataNodeInstance.headache || 1);
-        const calculatedJawPainValueInt = parseInt(latestDataNodeInstance.jawPain || 1);
-        const calculatedAnxietyValueInt = parseInt(latestDataNodeInstance.anxiety || 1);
+        const calculatedHeadacheValueInt = parseInt(latestDataNodeInstance.headache || 0);
+        const calculatedJawPainValueInt = parseInt(latestDataNodeInstance.jawPain || 0);
+        const calculatedAnxietyValueInt = parseInt(latestDataNodeInstance.anxiety || 0);
         const extractedHydrationValueInt = parseInt(latestDataNodeInstance.water || 0);
 
         if (calculatedHeadacheValueInt >= 6 || calculatedJawPainValueInt >= 6) {
